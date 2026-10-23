@@ -74,6 +74,7 @@ class ShortcutManager {
         todoSessionStateChanged: @escaping (Bool) -> Void = { isActive in
             TodoManager.setShortcutBindingsSessionActive(isActive)
             StackBadgeManager.setShortcutBindingsSessionActive(isActive)
+            CursorJumpManager.setShortcutBindingsSessionActive(isActive)
         }
     ) {
         self.windowManager = windowManager
@@ -359,6 +360,7 @@ class ShortcutManager {
 
         TodoManager.setShortcutBindingsSuspended(isRecording)
         StackBadgeManager.setShortcutBindingsSuspended(isRecording)
+        CursorJumpManager.setShortcutBindingsSuspended(isRecording)
     }
 
     private func isRepeatAction(parameters: ExecutionParameters, windowElement: AccessibilityElement, windowId: CGWindowID) -> Bool {
