@@ -226,6 +226,10 @@
 		E791B00A88D90C24A4C3D2D1 /* UpperMiddleCenterLeftSixteenthCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8CA6901E6FE134E930135B /* UpperMiddleCenterLeftSixteenthCalculation.swift */; };
 		F05220000000000000000002 /* WindowSizeWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05220000000000000000001 /* WindowSizeWarning.swift */; };
 		F1AC0DE000000000000000A2 /* StackBadgeGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AC0DE000000000000000A1 /* StackBadgeGeometry.swift */; };
+		C0B5E0000000000000000002 /* CursorDisplays.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E0000000000000000001 /* CursorDisplays.swift */; };
+		C0B5E0000000000000000004 /* CursorEdgeWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E0000000000000000003 /* CursorEdgeWrapper.swift */; };
+		C0B5E0000000000000000006 /* CursorPieMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E0000000000000000005 /* CursorPieMenu.swift */; };
+		C0B5E0000000000000000008 /* CursorJumpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E0000000000000000007 /* CursorJumpManager.swift */; };
 		F1AC0DE000000000000000A4 /* StackBadgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AC0DE000000000000000A3 /* StackBadgeManager.swift */; };
 		F1AC0DE000000000000000A8 /* StackBadgeListPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AC0DE000000000000000A9 /* StackBadgeListPanel.swift */; };
 		F1AC0DE000000000000000AA /* StackBadgeRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AC0DE000000000000000AB /* StackBadgeRowView.swift */; };
@@ -472,6 +476,10 @@
 		EEABF10E66D648DDB37DABBA /* MiddleLeftTwelfthCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleLeftTwelfthCalculation.swift; sourceTree = "<group>"; };
 		F05220000000000000000001 /* WindowSizeWarning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowSizeWarning.swift; sourceTree = "<group>"; };
 		F1AC0DE000000000000000A1 /* StackBadgeGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackBadgeGeometry.swift; sourceTree = "<group>"; };
+		C0B5E0000000000000000001 /* CursorDisplays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorDisplays.swift; sourceTree = "<group>"; };
+		C0B5E0000000000000000003 /* CursorEdgeWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorEdgeWrapper.swift; sourceTree = "<group>"; };
+		C0B5E0000000000000000005 /* CursorPieMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorPieMenu.swift; sourceTree = "<group>"; };
+		C0B5E0000000000000000007 /* CursorJumpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorJumpManager.swift; sourceTree = "<group>"; };
 		F1AC0DE000000000000000A3 /* StackBadgeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackBadgeManager.swift; sourceTree = "<group>"; };
 		F1AC0DE000000000000000A9 /* StackBadgeListPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackBadgeListPanel.swift; sourceTree = "<group>"; };
 		F1AC0DE000000000000000AB /* StackBadgeRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackBadgeRowView.swift; sourceTree = "<group>"; };
@@ -761,6 +769,7 @@
 				989DA30C243FC0C3008C7AA4 /* WelcomeWindow */,
 				98C2755F231FF6AE009B9292 /* Snapping */,
 				F1AC0DE000000000000000A5 /* StackBadge */,
+				C0B5E00000000000000000F0 /* CursorJump */,
 				98D4B6C925B625B6009C7BF6 /* TodoMode */,
 				985B9BFA22BE218C00A2E8F0 /* Popover */,
 				F1D226BE0EAC598E1F123E97 /* WindowAnimation */,
@@ -863,6 +872,17 @@
 				F1AC0DE000000000000000AB /* StackBadgeRowView.swift */,
 			);
 			path = StackBadge;
+			sourceTree = "<group>";
+		};
+		C0B5E00000000000000000F0 /* CursorJump */ = {
+			isa = PBXGroup;
+			children = (
+				C0B5E0000000000000000001 /* CursorDisplays.swift */,
+				C0B5E0000000000000000003 /* CursorEdgeWrapper.swift */,
+				C0B5E0000000000000000005 /* CursorPieMenu.swift */,
+				C0B5E0000000000000000007 /* CursorJumpManager.swift */,
+			);
+			path = CursorJump;
 			sourceTree = "<group>";
 		};
 		F1D226BE0EAC598E1F123E97 /* WindowAnimation */ = {
@@ -1170,6 +1190,10 @@
 				983BBD6F253B609D000D223E /* FootprintWindow.swift in Sources */,
 				F1AC0DE000000000000000C2 /* OverlapOffsetGeometry.swift in Sources */,
 				F1AC0DE000000000000000A2 /* StackBadgeGeometry.swift in Sources */,
+				C0B5E0000000000000000002 /* CursorDisplays.swift in Sources */,
+				C0B5E0000000000000000004 /* CursorEdgeWrapper.swift in Sources */,
+				C0B5E0000000000000000006 /* CursorPieMenu.swift in Sources */,
+				C0B5E0000000000000000008 /* CursorJumpManager.swift in Sources */,
 				F1AC0DE000000000000000A4 /* StackBadgeManager.swift in Sources */,
 				F1AC0DE000000000000000A8 /* StackBadgeListPanel.swift in Sources */,
 				F1AC0DE000000000000000AA /* StackBadgeRowView.swift in Sources */,

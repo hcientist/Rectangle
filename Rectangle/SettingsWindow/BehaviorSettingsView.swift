@@ -160,6 +160,46 @@ struct BehaviorSettingsView: View {
                 }
             }
 
+            // MARK: - Cursor
+            Section {
+                CustomDisclosureGroup {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Divider()
+                        VStack(alignment: .leading, spacing: 4) {
+                            cursorShortcutRow("Move cursor to left display", CursorJumpManager.jumpLeftDefaultsKey)
+                            cursorShortcutRow("Move cursor to right display", CursorJumpManager.jumpRightDefaultsKey)
+                            cursorShortcutRow("Move cursor to display above", CursorJumpManager.jumpUpDefaultsKey)
+                            cursorShortcutRow("Move cursor to display below", CursorJumpManager.jumpDownDefaultsKey)
+                            Text("Jumps to the center of the next display that way, wrapping around at the end of a row or column")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        Divider()
+                        VStack(alignment: .leading, spacing: 4) {
+                            cursorShortcutRow("Show display pie menu", CursorJumpManager.pieMenuDefaultsKey)
+                            Text("Flick the mouse toward a display, click a wedge, or press an arrow key. Esc cancels")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        Divider()
+                        VStack(alignment: .leading, spacing: 4) {
+                            Toggle("Wrap cursor at screen edges", isOn: $viewModel.cursorEdgeWrap)
+                            Text("Moving past the outermost left or right edge brings the cursor in from the opposite side")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        if viewModel.cursorEdgeWrap {
+                            Toggle("Wrap while dragging", isOn: $viewModel.cursorEdgeWrapWhileDragging)
+                            Toggle("Only wrap with multiple displays", isOn: $viewModel.cursorEdgeWrapMultipleDisplaysOnly)
+                        }
+                    }
+                    .padding(.top, 4)
+                    .padding(.leading, 12)
+                } label: {
+                    Label("Cursor", systemImage: "cursorarrow.motionlines")
+                }
+            }
+
             // MARK: - Stacked Windows
             Section {
                 CustomDisclosureGroup {
@@ -419,6 +459,7 @@ struct BehaviorSettingsView: View {
         .frame(width: 500)
         .animation(.easeInOut(duration: 0.2), value: viewModel.todoEnabled)
         .animation(.easeInOut(duration: 0.2), value: viewModel.subsequentExecutionMode)
+        .animation(.easeInOut(duration: 0.2), value: viewModel.cursorEdgeWrap)
     }
 
     /// A recorder for a window action's shortcut, validated like the ones on
@@ -431,6 +472,19 @@ struct BehaviorSettingsView: View {
             recordsMouseButtons: true
         )
         .frame(width: 160, height: 24)
+    }
+
+    /// A labeled recorder for one of the cursor shortcuts, which aren't
+    /// window actions and so are checked against Rectangle's own shortcuts.
+    private func cursorShortcutRow(_ title: LocalizedStringKey, _ defaultsKey: String) -> some View {
+        HStack {
+            Text(title)
+            Spacer()
+            MASShortcutViewRepresentable(defaultsKey: defaultsKey,
+                                         validator: AppShortcutValidator(defaultsKey: defaultsKey),
+                                         recordingObserver: viewModel.shortcutRecordingObserver)
+                .frame(width: 160, height: 24)
+        }
     }
 }
 

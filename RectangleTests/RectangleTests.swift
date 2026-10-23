@@ -2011,6 +2011,13 @@ class DefaultsExportTests: XCTestCase {
         XCTAssertTrue(keys.contains("stackSameSizeOnly"), "stackSameSizeOnly missing from Defaults.array")
     }
 
+    func testCursorDefaultsInExportArray() {
+        let keys = Defaults.array.map { $0.key }
+        XCTAssertTrue(keys.contains("cursorEdgeWrap"), "cursorEdgeWrap missing from Defaults.array")
+        XCTAssertTrue(keys.contains("cursorEdgeWrapWhileDragging"), "cursorEdgeWrapWhileDragging missing from Defaults.array")
+        XCTAssertTrue(keys.contains("cursorEdgeWrapMultipleDisplaysOnly"), "cursorEdgeWrapMultipleDisplaysOnly missing from Defaults.array")
+    }
+
     func testMouseButtonSettingInExportArray() {
         let keys = Defaults.array.map { $0.key }
         XCTAssertTrue(keys.contains("mouseButtonShortcutsUseWindowUnderCursor"), "mouseButtonShortcutsUseWindowUnderCursor missing from Defaults.array")
@@ -2034,7 +2041,7 @@ final class BundleIdentityTests: XCTestCase {
 
 class ConfigImportTests: XCTestCase {
 
-    private static let shortcutKeys = WindowAction.active.map(\.name) + TodoManager.defaultsKeys + StackBadgeManager.defaultsKeys
+    private static let shortcutKeys = WindowAction.active.map(\.name) + TodoManager.defaultsKeys + StackBadgeManager.defaultsKeys + CursorJumpManager.defaultsKeys
     private var storedValues = [String: Any]()
     private var absentKeys = Set<String>()
 
@@ -9610,5 +9617,64 @@ final class SwitchSidesRepeatedCommandTests: XCTestCase {
         XCTAssertEqual(rect.minY, expected.minY, accuracy: 0.5, "minY", file: file, line: line)
         XCTAssertEqual(rect.width, expected.width, accuracy: 0.5, "width", file: file, line: line)
         XCTAssertEqual(rect.height, expected.height, accuracy: 0.5, "height", file: file, line: line)
+    }
+}
+
+class CursorDisplaysTests: XCTestCase {
+
+    // Quartz coordinates: y grows downward from the primary display's top-left.
+    private let left = CursorDisplay(id: 1, frame: CGRect(x: 0, y: 0, width: 1512, height: 982))
+    private let middle = CursorDisplay(id: 2, frame: CGRect(x: 1512, y: -200, width: 2560, height: 1440))
+    private let right = CursorDisplay(id: 3, frame: CGRect(x: 4072, y: 0, width: 1920, height: 1080))
+    private let above = CursorDisplay(id: 4, frame: CGRect(x: 1512, y: -1280, width: 1920, height: 1080))
+
+    private var row: [CursorDisplay] { [left, middle, right] }
+
+    func testNeighborToTheRight() {
+        XCTAssertEqual(CursorDisplays.neighbor(of: left, .right, in: row), middle)
+        XCTAssertEqual(CursorDisplays.neighbor(of: middle, .right, in: row), right)
+    }
+
+    func testNeighborToTheLeft() {
+        XCTAssertEqual(CursorDisplays.neighbor(of: right, .left, in: row), middle)
+        XCTAssertEqual(CursorDisplays.neighbor(of: middle, .left, in: row), left)
+    }
+
+    func testWrapsToFarEndOfRow() {
+        XCTAssertEqual(CursorDisplays.neighbor(of: right, .right, in: row), left)
+        XCTAssertEqual(CursorDisplays.neighbor(of: left, .left, in: row), right)
+    }
+
+    func testNoWrapReturnsNil() {
+        XCTAssertNil(CursorDisplays.neighbor(of: right, .right, in: row, wrap: false))
+    }
+
+    func testVerticalNeighbors() {
+        let displays = row + [above]
+        XCTAssertEqual(CursorDisplays.neighbor(of: middle, .up, in: displays), above)
+        XCTAssertEqual(CursorDisplays.neighbor(of: above, .down, in: displays), middle)
+    }
+
+    func testSingleDisplayHasNoNeighbor() {
+        for direction in CursorDirection.allCases {
+            XCTAssertNil(CursorDisplays.neighbor(of: left, direction, in: [left]))
+        }
+    }
+
+    func testPointOnMaxEdgeFallsBackToNearestDisplay() {
+        let point = CGPoint(x: right.frame.maxX, y: 500)
+        XCTAssertEqual(CursorDisplays.display(at: point, in: row), right)
+    }
+}
+
+class CursorJumpShortcutTests: XCTestCase {
+
+    func testDefaultShortcutsAvoidBothDefaultSets() {
+        let windowDefaults = WindowAction.active.flatMap { [$0.spectacleDefault, $0.alternateDefault] }.compactMap { $0 }
+        let windowIdentities = Set(windowDefaults.map { ShortcutCycle.ShortcutIdentity($0.toMASSHortcut()) })
+        for (defaultsKey, shortcut) in CursorJumpManager.defaultShortcuts() {
+            XCTAssertFalse(windowIdentities.contains(ShortcutCycle.ShortcutIdentity(shortcut)),
+                           "\(defaultsKey) default collides with a window action default")
+        }
     }
 }

@@ -140,6 +140,24 @@ final class BehaviorSettingsViewModel {
     var stackSameSizeOnly: Bool {
         didSet { Defaults.stackSameSizeOnly.enabled = stackSameSizeOnly }
     }
+    var cursorEdgeWrap: Bool {
+        didSet {
+            Defaults.cursorEdgeWrap.enabled = cursorEdgeWrap
+            Notification.Name.cursorJumpChanged.post()
+        }
+    }
+    var cursorEdgeWrapWhileDragging: Bool {
+        didSet {
+            Defaults.cursorEdgeWrapWhileDragging.enabled = cursorEdgeWrapWhileDragging
+            Notification.Name.cursorJumpChanged.post()
+        }
+    }
+    var cursorEdgeWrapMultipleDisplaysOnly: Bool {
+        didSet {
+            Defaults.cursorEdgeWrapMultipleDisplaysOnly.enabled = cursorEdgeWrapMultipleDisplaysOnly
+            Notification.Name.cursorJumpChanged.post()
+        }
+    }
     /// Mirrors the App Settings restriction toggle, so the window action
     /// recorders here pick up a change made while Settings is open.
     var allowAnyShortcut = Defaults.allowAnyShortcut.enabled
@@ -219,6 +237,9 @@ final class BehaviorSettingsViewModel {
         self.cyclingOverlapOffset = Defaults.cyclingOverlapOffset.userEnabled
         self.stackBadge = Defaults.stackBadge.userEnabled
         self.stackSameSizeOnly = Defaults.stackSameSizeOnly.userEnabled
+        self.cursorEdgeWrap = Defaults.cursorEdgeWrap.userEnabled
+        self.cursorEdgeWrapWhileDragging = Defaults.cursorEdgeWrapWhileDragging.userEnabled
+        self.cursorEdgeWrapMultipleDisplaysOnly = !Defaults.cursorEdgeWrapMultipleDisplaysOnly.userDisabled
         self.horizontalSplitRatio = hRatio
         self.verticalSplitRatio = vRatio
         self.halvesPreserveOtherAxisSize = Defaults.halvesPreserveOtherAxisSize.enabled
@@ -281,6 +302,9 @@ final class BehaviorSettingsViewModel {
         self.cyclingOverlapOffset = Defaults.cyclingOverlapOffset.userEnabled
         self.stackBadge = Defaults.stackBadge.userEnabled
         self.stackSameSizeOnly = Defaults.stackSameSizeOnly.userEnabled
+        self.cursorEdgeWrap = Defaults.cursorEdgeWrap.userEnabled
+        self.cursorEdgeWrapWhileDragging = Defaults.cursorEdgeWrapWhileDragging.userEnabled
+        self.cursorEdgeWrapMultipleDisplaysOnly = !Defaults.cursorEdgeWrapMultipleDisplaysOnly.userDisabled
         self.allowAnyShortcut = Defaults.allowAnyShortcut.enabled
         self.horizontalSplitRatio = hRatio
         self.verticalSplitRatio = vRatio

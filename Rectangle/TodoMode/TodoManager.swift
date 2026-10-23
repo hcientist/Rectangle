@@ -324,7 +324,7 @@ struct AppShortcutConflict {
             return AppShortcutConflict(shortcutName: action.displayName ?? action.name)
         }
 
-        let appShortcutDefaultsKeys = TodoManager.defaultsKeys + StackBadgeManager.defaultsKeys
+        let appShortcutDefaultsKeys = TodoManager.defaultsKeys + StackBadgeManager.defaultsKeys + CursorJumpManager.defaultsKeys
         for defaultsKey in appShortcutDefaultsKeys where defaultsKey != ignoredDefaultsKey {
             guard let appShortcut = ShortcutCycle.shortcut(forDefaultsKey: defaultsKey, userDefaults: userDefaults),
                   ShortcutCycle.ShortcutIdentity(appShortcut) == identity
@@ -345,7 +345,7 @@ struct AppShortcutConflict {
         case StackBadgeManager.toggleDefaultsKey:
             return String(localized: "Toggle stacked window badge")
         default:
-            return defaultsKey
+            return CursorJumpManager.displayName(forDefaultsKey: defaultsKey) ?? defaultsKey
         }
     }
 }
